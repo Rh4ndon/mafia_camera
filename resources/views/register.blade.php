@@ -48,6 +48,7 @@
             @csrf
         <label for="uname"><b>Fullname</b></label>
         <input type="text" placeholder="Enter Fullname" name="name" required>
+        <input type="hidden" name="role_as" value="1" required>
 
         <label for="email"><b>Email</b></label>
         <input type="email" placeholder="Enter Email" name="email" required>

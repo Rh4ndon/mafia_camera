@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,13 +13,17 @@ class UserController extends Controller
         $incomingFields = $request->validate([
             'name' => ['required', Rule::unique('users', 'name')],
             'email' => ['required', Rule::unique('users', 'email')],
+            'role_as' => 'required',
             'password' => 'required_with:pswd-repeat',
         ]);
        
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         $user= User::create($incomingFields);
         auth()->login($user);
-        return redirect('/dashboard');
+        
+        return redirect('/userdashboard')->with(['status',  'Successfully Registered']);
+
+        
        
     }
 
@@ -29,7 +34,12 @@ class UserController extends Controller
         ]);
 
         if (auth()->attempt($incomingFields)) {
-            return redirect('/dashboard');
+            
+            if (Auth::user()->role_as == '0'){
+                return redirect('/dashboard');
+            }elseif(Auth::user()->role_as == '1') {
+                return redirect('/userdashboard');
+            }
         }
 
         return back()->withErrors(['email' => 'Invalid login credentials.']);

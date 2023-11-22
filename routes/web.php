@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CameraController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,12 @@ Route::get('/signup', function () {
 Route::get('/dashboard', function () {
     return view('home');
 });
+Route::get('/userdashboard', function () {
+    return view('userhome');
+});
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
+Route::resource('cameras', CameraController::class);
+Route::get('/cameras/create', [CameraController::class, 'create']);
+Route::post('/cameras/store', [CameraController::class, 'store']);

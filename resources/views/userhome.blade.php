@@ -65,40 +65,9 @@
 </div>
 
 <div class="welcome">
-<h1>Welcome Admin</h1>
+<h1>Welcome User</h1>
 <p>Hover over the navbar links to see the effect.</p>
-<form action="/cameras/store" method="POST" enctype="multipart/form-data">
-    @csrf
-    <div class="form-group">
-        <label for="name">Brand:</label>
-        <input type="text" id="brand" name="brand" required>
-    </div>
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" required>
-    </div>
-
-    <div class="form-group">
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required>
-    </div>
-
-    <button type="submit">Add Camera</button>
-</form>
-
 </div>
-
-
 
 </body>
 </html>
