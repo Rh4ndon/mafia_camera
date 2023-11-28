@@ -89,11 +89,16 @@
     </div>
 
     <div class="form-group">
+        <label for="quantity">Price:</label>
+        <input type="number" id="price" name="price" required>
+    </div>
+
+    <div class="form-group">
         <label for="image">Image:</label>
         <input type="file" id="image" name="image" required>
     </div>
 
-    <button type="submit">Add Camera</button>
+    <button>Add Camera</button>
 </form>
 
 </div>

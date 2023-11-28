@@ -6,6 +6,7 @@ use App\Models\Camera;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CameraController extends Controller
 {
@@ -36,17 +37,24 @@ class CameraController extends Controller
             'name' => 'required',
             'description' => 'required',
             'quantity' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required',
+            //'image' => 'required|image|mimes:jpeg,jpeg,png,jpg,gif,svg|max:40960',
         ]);
         
-        $imageName = time().'.'.$request->image->extension();  
-        $request->image->move(public_path('images'), $imageName);
-
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $filename);
+            $incomingFields['image'] = $filename;
+        }
+    
         
+        $incomingFields['user_id'] = auth()->id();
+        
+
         Camera::create($incomingFields);
     
-        return redirect()->route('cameras.home')
-                        ->with('success','Camera added successfully.');
+        return redirect('/dashboard')->with('success','Camera added successfully.');
     }
 
     /**
@@ -54,7 +62,8 @@ class CameraController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $camera = Camera::findOrFail($id);
+        return view('cameras.show', compact('camera'));
     }
 
     /**
@@ -62,7 +71,8 @@ class CameraController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $camera = Camera::findOrFail($id);
+        return view('cameras.edit', compact('camera'));
     }
 
     /**
@@ -70,7 +80,25 @@ class CameraController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $camera = Camera::findOrFail($id);
+
+        $incomingFields = $request->validate([
+            'brand' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+        
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $incomingFields['image'] = Storage::putFile('public/images', $image);
+        }
+
+        $camera->update($incomingFields);
+    
+        return redirect()->route('cameras.home')->with('success','Camera updated successfully.');
     }
 
     /**
@@ -78,6 +106,11 @@ class CameraController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $camera = Camera::findOrFail($id);
+        $camera->delete();
+    
+        return redirect()->route('cameras.home')->with('success','Camera deleted successfully.');
     }
 }
+
+?>
