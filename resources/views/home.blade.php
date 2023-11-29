@@ -50,6 +50,20 @@
             text-align:center;
             font-family:'Courier New', Courier, monospace;
         }
+        .form{
+            display: flex;
+            flex-direction: row;
+
+        }
+        .for-group{
+        
+            align-items: flex-start;
+        }
+        .view{
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+        }
     </style>
 </head>
 <body>
@@ -67,39 +81,59 @@
 <div class="welcome">
 <h1>Welcome Admin</h1>
 <p>Hover over the navbar links to see the effect.</p>
+<br>
+
 <form action="/cameras/store" method="POST" enctype="multipart/form-data">
     @csrf
+    <div class="form">
     <div class="form-group">
         <label for="name">Brand:</label>
         <input type="text" id="brand" name="brand" required>
     </div>
+    <br>
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
     </div>
-
+    <br>
     <div class="form-group">
         <label for="description">Description:</label>
         <textarea id="description" name="description" required></textarea>
     </div>
-
+    <br>
     <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" required>
     </div>
-
+    <br>
     <div class="form-group">
         <label for="quantity">Price:</label>
         <input type="number" id="price" name="price" required>
     </div>
-
+    <br>
     <div class="form-group">
         <label for="image">Image:</label>
         <input type="file" id="image" name="image" required>
     </div>
-
+    <br>
+    <div class="form-group">
     <button>Add Camera</button>
+    </div>
+</div>
 </form>
+
+
+<div class="view">
+    @foreach ($cameras as $camera)
+    <div class="each">
+    <img width="200px" src="{{asset('images/'. $camera->image)}}" alt="{{ $camera->name }}">
+    <h2>{{ $camera->name }}</h2>
+    <p>{{ $camera->description }}</p>
+    <p>Quantity: {{ $camera->quantity }}</p>
+    </div>
+    @endforeach
+</div>
+
 
 </div>
 

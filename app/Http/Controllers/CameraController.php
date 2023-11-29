@@ -38,7 +38,7 @@ class CameraController extends Controller
             'description' => 'required',
             'quantity' => 'required',
             'price' => 'required',
-            //'image' => 'required|image|mimes:jpeg,jpeg,png,jpg,gif,svg|max:40960',
+            //'image' => 'required|mimes:jpeg,jpeg,png,jpg,gif,svg|max:40960',
         ]);
         
         if($request->hasFile('image')) {
@@ -60,10 +60,10 @@ class CameraController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        $camera = Camera::findOrFail($id);
-        return view('cameras.show', compact('camera'));
+        $cameras = Camera::all();
+        return view('home', ['cameras' => $cameras]);
     }
 
     /**
