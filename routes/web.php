@@ -22,9 +22,7 @@ Route::get('/signup', function () {
     return view('register');
 });
 Route::get('/dashboard',  [CameraController::class, 'show']);
-Route::get('/userdashboard', function () {
-    return view('userhome');
-});
+Route::get('/userdashboard', [CameraController::class, 'home']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);

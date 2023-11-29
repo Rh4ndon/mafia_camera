@@ -16,7 +16,7 @@ class CameraController extends Controller
     public function home()
     {
         $cameras = Camera::all();
-        return view('cameras.home', compact('cameras'));
+        return view('userhome', compact('cameras'));
     }
 
     /**

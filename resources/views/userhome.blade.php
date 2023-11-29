@@ -50,6 +50,11 @@
             text-align:center;
             font-family:'Courier New', Courier, monospace;
         }
+        .view{
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +72,20 @@
 <div class="welcome">
 <h1>Welcome User</h1>
 <p>Hover over the navbar links to see the effect.</p>
+<br>
+<div class="view">
+    @foreach ($cameras as $camera)
+    <div class="each">
+    <img width="200px" src="{{asset('images/'. $camera->image)}}" alt="{{ $camera->name }}">
+    <h2>{{ $camera->name }}</h2>
+    <p>{{ $camera->description }}</p>
+    <p>Quantity: {{ $camera->quantity }}</p>
+    </div>
+    @endforeach
 </div>
+</div>
+
+
 
 </body>
 </html>
