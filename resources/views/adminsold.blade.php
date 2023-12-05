@@ -116,7 +116,7 @@
   <a href="/dashboard">Home</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>
-  <a href="#">Sold Records</a>
+  <a href="#">Order Records</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>
@@ -139,7 +139,7 @@
 			<th>Product Name</th>
 			<th>Qunatity</th>
             <th>Price</th>
-            <th>Sold To</th>
+            <th>Ordered by</th>
             <th>Ordered at</th>
 		</tr>
         @foreach ($carts as $cart)
