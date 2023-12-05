@@ -22,16 +22,6 @@
             text-decoration: none;
             font-size: 17px;
         }
-        .logo{
-            font-weight: bold;
-            float: right;
-            display: block;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 23px;
-        }
         .navbar button {
             float: left;
             display: block;
@@ -42,6 +32,16 @@
             font-size: 17px;
             background-color: transparent;
             border-color: transparent;
+        }
+        .logo{
+            font-weight: bold;
+            float: right;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 23px;
         }
 
         .navbar a:hover {
@@ -60,11 +60,37 @@
             text-align:center;
             font-family:'Courier New', Courier, monospace;
         }
+        .form{
+            display: flex;
+            flex-direction: row;
+
+        }
+        .for-group{
+        
+            align-items: flex-start;
+        }
         .view{
             display: flex;
             flex-direction: row;
             align-self: center;
         }
+        .my-button {
+
+            font-size: 15px;
+            padding: 5px;
+            border: #000;
+            cursor: pointer;
+            color: #ffffff;
+            background-color: #4c4d4c;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+    
+        .my-button:hover {
+            background-color: #000;
+        }
+
         .card {
             background-color: #f2f2f2;
             border-radius: 5px;
@@ -89,6 +115,7 @@
         .edit-btn:hover{
             background-color: #000;
         }
+
     </style>
 </head>
 <body>
@@ -97,51 +124,68 @@
   <a href="#home">Home</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>
-  <a href="/usercart">My Cart</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>
   </form>
   <div class="logo">Analouge Mafia</div>
 </div>
-@foreach ($user as $user)
+
 <div class="welcome">
-<h1>Welcome {{$user->name}}</h1>
-<p>Analouge Mafia</p>
+<h1>Welcome Admin</h1>
+<a href="/dashboard"class="my-button">Cancel Update</a>
+<br>
+<br>
+
+<form action="/edit-camera/{{$camera->id}}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <div class="form">
+    <div class="form-group">
+        <label for="name">Brand:</label>
+        <input type="text" id="brand" name="brand" value="{{$camera->brand}}" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{$camera->name}}" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required>{{$camera->description}}</textarea>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="{{$camera->quantity}}" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="quantity">Price:</label>
+        <input type="number" id="price" name="price" value="{{$camera->price}}" required>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="image">Image:</label>
+        <input type="file" id="image" value="{{$camera->image}}" name="image" required>
+    </div>
+    <br>
+    <div class="form-group">
+    <button class="my-button">Update Camera</button>
+    </div>
+    
+</div>
+
+</form>
 <br>
 
 
-<div class="view">
-    @foreach ($cameras as $camera)
-    <div class="card">
-        <img src="{{asset('images/'. $camera->image)}}" alt="Product Image" style="width:200px; border: 1px solid black; padding: 5px; border-radius:10px;">
-        <h1>{{ $camera->brand }}</h1>
-        <h2>{{ $camera->name }}</h2>
-        <p class="description">{{ $camera->description }}</p>
-        <p class="quantity">Quantity Left: {{ $camera->quantity }}</p>
-        <p class="price"> &#8369; {{ $camera->price }}</p>
-        <form method="POST" action="/camera/cart">
-            @csrf
-            <input type="hidden" name="cam_id" value="{{ $camera->id }}" />
-            <input type="hidden" name="brand" value="{{ $camera->brand }}" />
-            <input type="hidden" name="name" value="{{ $camera->name }}" />
-            <input type="hidden" name="image" value="{{ $camera->image }}" />
-            <input type="hidden" name="price" value="{{ $camera->price }}" />
-            <input type="hidden" name="user_name" value="{{ $user->name }}" />
-            <input type="hidden" name="status" value="added" />
-            <input type="number" name="quantity" min="1" max="{{$camera->quantity}}" placeholder="Enter Quantity" required/>
-            <p><button class="edit-btn">Add to Cart</button></p>
-        </form>
-        
-    </div>
-    
-    
-    @endforeach
-</div>
+
 
 
 </div>
-@endforeach
+
 
 
 </body>

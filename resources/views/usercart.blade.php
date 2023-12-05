@@ -62,8 +62,8 @@
         }
         .view{
             display: flex;
-            flex-direction: row;
-            align-self: center;
+            flex-direction: column;
+            
         }
         .card {
             background-color: #f2f2f2;
@@ -71,6 +71,8 @@
             padding: 20px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             margin: 10px;
+            align-self: center;
+            max-width: 25%;
         }
 
         .edit-btn{
@@ -94,10 +96,10 @@
 <body>
 
 <div class="navbar">
-  <a href="#home">Home</a>
+  <a href="/userdashboard">Home</a>
   <a href="#contact">Contact</a>
   <a href="#about">About</a>
-  <a href="/usercart">My Cart</a>
+  <a href="#">My Cart</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>
@@ -106,35 +108,44 @@
 </div>
 @foreach ($user as $user)
 <div class="welcome">
-<h1>Welcome {{$user->name}}</h1>
+<h1>{{$user->name}}'s Cart</h1>
 <p>Analouge Mafia</p>
 <br>
 
 
 <div class="view">
-    @foreach ($cameras as $camera)
-    <div class="card">
-        <img src="{{asset('images/'. $camera->image)}}" alt="Product Image" style="width:200px; border: 1px solid black; padding: 5px; border-radius:10px;">
-        <h1>{{ $camera->brand }}</h1>
-        <h2>{{ $camera->name }}</h2>
-        <p class="description">{{ $camera->description }}</p>
-        <p class="quantity">Quantity Left: {{ $camera->quantity }}</p>
-        <p class="price"> &#8369; {{ $camera->price }}</p>
-        <form method="POST" action="/camera/cart">
-            @csrf
-            <input type="hidden" name="cam_id" value="{{ $camera->id }}" />
-            <input type="hidden" name="brand" value="{{ $camera->brand }}" />
-            <input type="hidden" name="name" value="{{ $camera->name }}" />
-            <input type="hidden" name="image" value="{{ $camera->image }}" />
-            <input type="hidden" name="price" value="{{ $camera->price }}" />
-            <input type="hidden" name="user_name" value="{{ $user->name }}" />
-            <input type="hidden" name="status" value="added" />
-            <input type="number" name="quantity" min="1" max="{{$camera->quantity}}" placeholder="Enter Quantity" required/>
-            <p><button class="edit-btn">Add to Cart</button></p>
-        </form>
-        
-    </div>
+    @foreach ($carts as $cart)
+
     
+        <center>
+            @if ($cart->status == 'added')
+            <div class="card">
+                <img src="{{asset('images/'. $cart->image)}}" alt="Product Image" style="width:200px; border: 1px solid black; padding: 5px; border-radius:10px;">
+                <h1>{{ $cart->brand }}</h1>
+                <h2>{{ $cart->name }}</h2>
+                <p class="description">{{ $cart->description }}</p>
+                <p class="quantity">Quantity: {{ $cart->quantity }}</p>
+                <p class="price"> &#8369; {{ $cart->price }}</p>
+                <form method="POST" action="/buy-camera/{{ $cart->id}}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="cam_id" value="{{ $cart->cam_id }}" />
+                    <input type="hidden" name="brand" value="{{ $cart->brand }}" />
+                    <input type="hidden" name="name" value="{{ $cart->name }}" />
+                    <input type="hidden" name="image" value="{{ $cart->image }}" />
+                    <input type="hidden" name="price" value="{{ $cart->price }}" />
+                    <input type="hidden" name="user_name" value="{{ $user->name }}" />
+                    <input type="hidden" name="quantity"  value="{{ $cart->quantity }}"/>
+                    <input type="hidden" name="status" value="sold" />
+                    <p><button class="edit-btn">Buy</button></p>
+                </form>
+            </div>
+          
+            @else
+        
+            @endif
+        </center>
+
     
     @endforeach
 </div>

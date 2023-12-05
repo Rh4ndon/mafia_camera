@@ -29,3 +29,14 @@ Route::post('/logout', [UserController::class, 'logout']);
 Route::resource('cameras', CameraController::class);
 Route::get('/cameras/create', [CameraController::class, 'create']);
 Route::post('/cameras/store', [CameraController::class, 'store']);
+//Edit
+Route::get('/edit-camera/{camera}',[CameraController::class,'edit'])->name('edit');
+//Update
+Route::put('/edit-camera/{camera}',[CameraController::class,'updateCamera'])->name('updateCamera');
+//Delete
+Route::delete('/delete-camera/{id}',[CameraController::class,'destroy'])->name('deleteCamera');
+//Add to Cart
+Route::post('/camera/cart',[CameraController::class,'add']);
+Route::get('/usercart', [CameraController::class, 'showCart']);
+Route::put('/buy-camera/{camera}',[CameraController::class,'buyCamera'])->name('buyCamera');
+Route::get('/sold-camera', [CameraController::class, 'soldCam']);
