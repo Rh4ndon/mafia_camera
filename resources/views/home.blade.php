@@ -121,8 +121,6 @@
 
 <div class="navbar">
   <a href="#home">Home</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
   <a href="/sold-camera">Order Records</a>
   <form method="POST" action="/logout">
     @csrf

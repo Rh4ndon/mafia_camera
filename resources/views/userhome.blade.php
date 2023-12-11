@@ -42,6 +42,7 @@
             font-size: 17px;
             background-color: transparent;
             border-color: transparent;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .navbar a:hover {
@@ -95,8 +96,8 @@
 
 <div class="navbar">
   <a href="#home">Home</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/about">About</a>
   <a href="/usercart">My Cart</a>
   <form method="POST" action="/logout">
     @csrf

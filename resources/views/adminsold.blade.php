@@ -114,8 +114,6 @@
 
 <div class="navbar">
   <a href="/dashboard">Home</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
   <a href="#">Order Records</a>
   <form method="POST" action="/logout">
     @csrf

@@ -121,9 +121,7 @@
 <body>
 
 <div class="navbar">
-  <a href="#home">Home</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
+  <a href="/dashboard">Home</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>

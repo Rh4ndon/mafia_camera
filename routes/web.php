@@ -21,6 +21,12 @@ Route::get('/', function () {
 Route::get('/signup', function () {
     return view('register');
 });
+Route::get('/contact', function () {
+    return view('contact');
+});
+Route::get('/about', function () {
+    return view('about');
+});
 Route::get('/dashboard',  [CameraController::class, 'show']);
 Route::get('/userdashboard', [CameraController::class, 'home']);
 Route::post('/register', [UserController::class, 'register']);
