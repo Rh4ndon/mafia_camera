@@ -60,15 +60,7 @@
             text-align:center;
             font-family:'Courier New', Courier, monospace;
         }
-        .form{
-            display: flex;
-            flex-direction: row;
-
-        }
-        .for-group{
-        
-            align-items: flex-start;
-        }
+    
         .view{
             display: flex;
             flex-direction: row;
@@ -116,6 +108,46 @@
             background-color: #000;
         }
 
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            height: 100vh;
+            
+        }               
+        .form {
+            padding: 40px;
+            width: 400px;
+            border-radius: 10px;
+            background-color: #f7f7f7;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #ebebeb;
+            color: #333;
+            font-family: "Open Sans", sans-serif;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+
     </style>
 </head>
 <body>
@@ -138,6 +170,7 @@
 <form action="/edit-camera/{{$camera->id}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+    <div class="container">
     <div class="form">
     <div class="form-group">
         <label for="name">Brand:</label>
@@ -165,14 +198,10 @@
     </div>
     <br>
     <div class="form-group">
-        <label for="image">Image:</label>
-        <input type="file" id="image" value="{{$camera->image}}" name="image" required>
-    </div>
-    <br>
-    <div class="form-group">
     <button class="my-button">Update Camera</button>
     </div>
     
+</div>
 </div>
 
 </form>

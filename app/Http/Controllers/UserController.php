@@ -13,6 +13,7 @@ class UserController extends Controller
         $incomingFields = $request->validate([
             'name' => ['required', Rule::unique('users', 'name')],
             'email' => ['required', Rule::unique('users', 'email')],
+            'address' => 'required',
             'role_as' => 'required',
             'password' => 'required_with:pswd-repeat',
         ]);
@@ -28,6 +29,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
+            
         $incomingFields = $request->validate([
             'email' => 'required',
             'password' => 'required'
@@ -42,11 +44,14 @@ class UserController extends Controller
             }
         }
 
-        return back()->withErrors(['email' => 'Invalid login credentials.']);
+        return back()->withErrors(['failed' => 'Invalid login credentials!']);
     }
 
     public function logout(){
+        
         auth()->logout();
+        // Destroy the session
+        session()->flush();
         return redirect('/');
     }
 

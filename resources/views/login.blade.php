@@ -40,12 +40,21 @@
         button:hover {
             opacity: 0.8;
         }
+        .alert-danger{
+            color: red;
+            font-weight: bolder;
+            font-size: 1.5em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <form action="/login" method="POST">
             @csrf
+        @if($errors->has('failed'))
+        <div class="alert-danger">{{ $errors->first('failed') }}</div>
+        <br>
+        @endif
         <label for="uname"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" required>
 

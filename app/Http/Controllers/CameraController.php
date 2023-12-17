@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use id;
 
 class CameraController extends Controller
 {
@@ -17,9 +18,28 @@ class CameraController extends Controller
      */
     public function home()
     {
+        
+
+        // Start a new session or resume an existing one
+        session()->start();
+        
+        $user = auth()->id();
+        
+        // Store data in the session
+        session()->put('user_id', $user);
+    
+        // Retrieve data from the session
+        $userId = session()->get('user_id');
+    
+        // Check if a value exists in the session
+        if (session()->has('user_id')) {
         $user = User::where('id', auth()->id())->get();
         $cameras = Camera::orderBy('brand')->get();
         return view('userhome', compact('cameras'), ['user' => $user]);
+    }
+        else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -64,9 +84,29 @@ class CameraController extends Controller
      * Display the specified resource.
      */
     public function show()
-    {
-        $cameras = Camera::orderBy('brand')->get();
-        return view('home', ['cameras' => $cameras]);
+    {    
+        $user = auth()->id();
+
+        // Start a new session or resume an existing one
+        session()->start();
+    
+        // Store data in the session
+        session()->put('user_id', $user);
+    
+        // Retrieve data from the session
+        $userId = session()->get('user_id');
+    
+        // Check if a value exists in the session
+        if (session()->has('user_id')) {
+            $cameras = Camera::orderBy('brand')->get();
+            return view('home', ['cameras' => $cameras]);
+        }else {
+            return redirect('/');
+        }
+    
+        
+
+        
     }
 
     /**
@@ -149,9 +189,26 @@ class CameraController extends Controller
      */
     public function showCart()
     {
-        $user = User::where('id', auth()->id())->get();
-        $carts = Cart::where('user_id', auth()->id())->get();
-        return view('usercart', ['carts' => $carts], ['user' => $user]);
+        $user = auth()->id();
+
+        // Start a new session or resume an existing one
+        session()->start();
+    
+        // Store data in the session
+        session()->put('user_id', $user);
+    
+        // Retrieve data from the session
+        $userId = session()->get('user_id');
+    
+        // Check if a value exists in the session
+        if (session()->has('user_id')) {
+            $user = User::where('id', auth()->id())->get();
+            $carts = Cart::where('user_id', auth()->id())->get();
+            return view('usercart', ['carts' => $carts], ['user' => $user]);
+        }else {
+            return redirect('/');
+        }
+        
     }
 
      /**
@@ -190,10 +247,27 @@ class CameraController extends Controller
      * Sold Items.
      */
     public function soldCam()
-    {
-        $user = User::where('id', auth()->id())->get();
-        $carts = Cart::orderBy('updated_at')->get();
-        return view('adminsold', ['carts' => $carts], ['user' => $user]);
+    {   
+        $user = auth()->id();
+
+        // Start a new session or resume an existing one
+        session()->start();
+    
+        // Store data in the session
+        session()->put('user_id', $user);
+    
+        // Retrieve data from the session
+        $userId = session()->get('user_id');
+    
+        // Check if a value exists in the session
+        if (session()->has('user_id')) {
+            $user = User::where('id', auth()->id())->get();
+            $carts = Cart::orderBy('updated_at')->get();
+            return view('adminsold', ['carts' => $carts], ['user' => $user]);
+        }else {
+            return redirect('/');
+        }
+        
     }
 
 
