@@ -108,6 +108,23 @@
 		tr:nth-child(even) {
 			background-color: #f2f2f2;
 		}
+
+        .edit-btn{
+            background-color: #4c4d4c;
+            border: none;
+            padding: 15px 32px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            display: inline-block;
+            cursor: pointer;
+            margin: 4px 2px;
+            border-radius: 16px;
+        }
+        .edit-btn:hover{
+            background-color: #000;
+        }
     </style>
 </head>
 <body>
@@ -139,9 +156,11 @@
             <th>Price</th>
             <th>Ordered by</th>
             <th>Ordered at</th>
+            <th>Status</th>
+            <th>Action</th>
 		</tr>
         @foreach ($carts as $cart)
-        @if ($cart->status == 'sold')
+        @if ($cart->status == 'sold' || $cart->status == 'delivered')
 		<tr>
 			<td>{{ $cart->brand }}</td>
 			<td>{{ $cart->name }}</td>
@@ -149,6 +168,26 @@
             <td>&#8369; {{ $cart->price }}</td>
 			<td>{{ $cart->user_name }}</td>
             <td>{{ $cart->updated_at }}</td>
+            <td>
+            @if ($cart->status == 'sold')
+            For Delivery
+            @else
+            Order Received
+            @endif
+
+            </td>
+            <td>
+            @if ($cart->status == 'sold')
+                <form method="POST" action="/deliver-camera/{{ $cart->id}}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="cart_id" value="{{ $cart->id }}" />
+                    <button class="edit-btn">Delivered</button>
+                </form>
+            @else
+            Action Completed
+            @endif
+            </td>
 		</tr>
         @else
                

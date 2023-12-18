@@ -46,3 +46,6 @@ Route::post('/camera/cart',[CameraController::class,'add']);
 Route::get('/usercart', [CameraController::class, 'showCart']);
 Route::put('/buy-camera/{camera}',[CameraController::class,'buyCamera'])->name('buyCamera');
 Route::get('/sold-camera', [CameraController::class, 'soldCam']);
+
+Route::get('/userorders', [CameraController::class, 'orders']);
+Route::put('/deliver-camera/{camera}',[CameraController::class,'deliverCamera']);

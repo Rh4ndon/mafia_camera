@@ -63,8 +63,8 @@
         }
         .view{
             display: flex;
-            flex-direction: row;
-            align-self: center;
+            flex-direction: column;
+            
         }
         .card {
             background-color: #f2f2f2;
@@ -72,6 +72,8 @@
             padding: 20px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             margin: 10px;
+            align-self: center;
+            max-width: 25%;
         }
 
         .edit-btn{
@@ -90,16 +92,34 @@
         .edit-btn:hover{
             background-color: #000;
         }
+
+        table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border: 1px solid black;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+   
+
+
     </style>
 </head>
 <body>
 
 <div class="navbar">
-  <a href="#home">Home</a>
+  <a href="/userdashboard">Home</a>
   <a href="/contact">Contact</a>
   <a href="/about">About</a>
   <a href="/usercart">My Cart</a>
-  <a href="/userorders">My Orders</a>
+  <a href="#">My Orders</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>
@@ -108,43 +128,47 @@
 </div>
 @foreach ($user as $user)
 <div class="welcome">
-<h1>Welcome {{$user->name}}</h1>
+<h1>{{$user->name}}'s Cart</h1>
 <p>Analouge Mafia</p>
 <br>
 
 
 <div class="view">
-    @foreach ($cameras as $camera)
-    <div class="card">
-        <img src="{{asset('images/'. $camera->image)}}" alt="Product Image" style="width:200px; border: 1px solid black; padding: 5px; border-radius:10px;">
-        <h1>{{ $camera->brand }}</h1>
-        <h2>{{ $camera->name }}</h2>
-        <p class="description">{{ $camera->description }}</p>
-        <p class="quantity">Quantity Left: {{ $camera->quantity }}</p>
-        <p class="price"> &#8369; {{ $camera->price }}</p>
-        <form method="POST" action="/camera/cart">
-            @csrf
-            <input type="hidden" name="cam_id" value="{{ $camera->id }}" />
-            <input type="hidden" name="brand" value="{{ $camera->brand }}" />
-            <input type="hidden" name="name" value="{{ $camera->name }}" />
-            <input type="hidden" name="image" value="{{ $camera->image }}" />
-            <input type="hidden" name="price" value="{{ $camera->price }}" />
-            <input type="hidden" name="user_name" value="{{ $user->name }}" />
-            <input type="hidden" name="status" value="added" />
-            <input type="number" name="quantity" min="1" max="{{$camera->quantity}}" placeholder="Enter Quantity" required/>
-            <p><button class="edit-btn">Add to Cart</button></p>
-        </form>
-        
-    </div>
-    
+
+    <table>
+		<tr>
+			<th>Brand</th>
+			<th>Product Name</th>
+			<th>Qunatity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+            <th>Status</th>
+		</tr>
+        @foreach ($carts as $cart)
+        @if ($cart->status == 'sold' || $cart->status == 'delivered')
+		<tr>
+			<td>{{ $cart->brand }}</td>
+			<td>{{ $cart->name }}</td>
+			<td>{{ $cart->quantity }}</td>
+            <td>&#8369; {{ $cart->price }}</td>
+			<td>&#8369; {{ $cart->price * $cart->quantity }}</td>
+            <td>
+            @if ($cart->status == 'sold')
+            For Delivery
+            @else
+            Order Received
+            @endif
+            </td>
+		</tr>
+        @else
+               
+        @endif
+        @endforeach
+	</table>
+
     
     @endforeach
 </div>
-
-
-</div>
-@endforeach
-
 
 </body>
 </html>

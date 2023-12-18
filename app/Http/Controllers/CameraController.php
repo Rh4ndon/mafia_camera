@@ -202,9 +202,20 @@ class CameraController extends Controller
     
         // Check if a value exists in the session
         if (session()->has('user_id')) {
-            $user = User::where('id', auth()->id())->get();
-            $carts = Cart::where('user_id', auth()->id())->get();
-            return view('usercart', ['carts' => $carts], ['user' => $user]);
+
+
+            $total = Cart::where([['user_id', $userId],['status', 'added']])->sum(Cart::raw('quantity * price'));
+            $user = User::where('id', $userId)->get();
+            $carts = Cart::where('user_id', $userId)->get();
+            return view('usercart', ['carts' => $carts, 'user' => $user, 'total' => $total]);
+
+
+
+
+
+
+
+
         }else {
             return redirect('/');
         }
@@ -239,7 +250,7 @@ class CameraController extends Controller
 
         $cart->update($incomingFields);
         
-        return redirect('/userdashboard')->with('success','Camera bought successfully.');
+        return redirect('/usercart')->with('success','Camera bought successfully.');
     }
 
 
@@ -268,6 +279,73 @@ class CameraController extends Controller
             return redirect('/');
         }
         
+    }
+
+
+    /**
+     * Display a order status.
+     */
+    public function orders()
+    {
+        $user = auth()->id();
+
+        // Start a new session or resume an existing one
+        session()->start();
+    
+        // Store data in the session
+        session()->put('user_id', $user);
+    
+        // Retrieve data from the session
+        $userId = session()->get('user_id');
+    
+        // Check if a value exists in the session
+        if (session()->has('user_id')) {
+
+
+            $total = Cart::where([['user_id', $userId],['status', 'sold']])->sum(Cart::raw('quantity * price'));
+            $user = User::where('id', $userId)->get();
+
+            $carts = Cart::where('user_id', $userId)
+                ->where(function ($query) {
+                    $query->where('status', 'sold')
+                          ->orWhere('status', 'delivered');
+                })
+                ->get();
+                
+            return view('userorders', ['carts' => $carts, 'user' => $user, 'total' => $total]);
+
+
+
+
+
+
+
+
+        }else {
+            return redirect('/');
+        }
+        
+    }
+
+    public function deliverCamera(Request $request, string $id)
+    {
+        $cart = Cart::findOrFail($id);
+       
+        $incomingFields = $request->validate([
+            'cart_id' => 'required',
+
+            
+        ]);
+
+        $cart_id = $incomingFields['cart_id'];
+  
+
+        $new_stat = 'delivered';
+
+        Cart::where('id', $cart_id)->update(['status' => $new_stat]);
+
+        
+        return redirect('/sold-camera')->with('success','Camera bought successfully.');
     }
 
 
