@@ -130,6 +130,7 @@
             <input type="hidden" name="image" value="{{ $camera->image }}" />
             <input type="hidden" name="price" value="{{ $camera->price }}" />
             <input type="hidden" name="user_name" value="{{ $user->name }}" />
+            <input type="hidden" name="address" value="{{ $user->address }}" />
             <input type="hidden" name="status" value="added" />
             <input type="number" name="quantity" min="1" max="{{$camera->quantity}}" placeholder="Enter Quantity" required/>
             <p><button class="edit-btn">Add to Cart</button></p>

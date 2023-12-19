@@ -172,6 +172,7 @@ class CameraController extends Controller
             'user_name' => 'required',
             'image' => 'required',
             'status' => 'required',
+            'address' => 'required',
         ]);
            
         

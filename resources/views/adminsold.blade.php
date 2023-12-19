@@ -156,6 +156,7 @@
             <th>Price</th>
             <th>Ordered by</th>
             <th>Ordered at</th>
+            <th>Address</th>
             <th>Status</th>
             <th>Action</th>
 		</tr>
@@ -168,6 +169,7 @@
             <td>&#8369; {{ $cart->price }}</td>
 			<td>{{ $cart->user_name }}</td>
             <td>{{ $cart->updated_at }}</td>
+            <td>{{ $cart->address }}</td>
             <td>
             @if ($cart->status == 'sold')
             For Delivery
