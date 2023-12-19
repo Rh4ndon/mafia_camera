@@ -350,6 +350,31 @@ class CameraController extends Controller
     }
 
 
+    /**
+     * Checkout all resource in storage.
+     */
+    public function checkoutCamera(Request $request)
+    {
+        
+       
+        $cart_ids = (array) $request->input('cart_id');
+        $cam_ids = (array) $request->input('cam_id');
+        $quantities = (array) $request->input('quantity');
+        
+        
+        foreach ($cart_ids as $index => $cart_id) {
+            Cart::where('id', $cart_id)->update(['status' => 'sold']);
+            $total_quantity = Camera::where('id', $cam_ids[$index])->value('quantity');
+            $new_quantity = $total_quantity - $quantities[$index];
+            Camera::where('id', $cam_ids[$index])->update(['quantity' => $new_quantity]);
+        }
+        
+        return redirect('/usercart')->with('success','Camera bought successfully.');
+    
+
+}
+
+
 }
 
 ?>

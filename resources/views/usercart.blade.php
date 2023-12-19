@@ -110,6 +110,12 @@
             font-weight: bold;
             font-size: 2em
         }
+        .form_s{
+            right: -300px;
+            position: relative;
+            margin: 0;
+        }
+
 
 
     </style>
@@ -179,8 +185,26 @@
     <footer>
        
     <p class="total">Total</p>
-    <p class="total">&#8369; {{ $total }}</p>
+    
+    <p class="total">
+    &#8369; {{ $total }}
 
+    
+    <form class="form_s" method="POST" action="/checkout">
+        @csrf
+        @method('PUT')
+        @foreach ($carts as $index => $cart)
+        @if ($cart->status == 'added')
+            <input type="hidden" name="cart_id[{{ $index }}]" value="{{ $cart->id }}" />
+            <input type="hidden" name="cam_id[{{ $index }}]" value="{{ $cart->cam_id }}" />
+            <input type="hidden" name="quantity[{{ $index }}]"  value="{{ $cart->quantity }}"/>
+        @endif
+        @endforeach
+    <button class="edit-btn">Checkout All</button>
+    </form>
+    </p>
+
+    
   </footer>
 </body>
 </html>

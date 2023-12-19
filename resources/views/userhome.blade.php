@@ -100,6 +100,7 @@
   <a href="/about">About</a>
   <a href="/usercart">My Cart</a>
   <a href="/userorders">My Orders</a>
+  <a href="/editUser">My Details</a>
   <form method="POST" action="/logout">
     @csrf
   <button>Logout</button>
